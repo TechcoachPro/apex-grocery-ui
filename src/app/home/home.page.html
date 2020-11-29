@@ -1,20 +1,82 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
+<ion-header [translucent]="true" class="ion-no-border unflip" [class.flip]="isScrolled" [class.unflip]="!isScrolled" #header>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col size-xl="8" offset-xl="2">
+        <ion-toolbar color="primary">
+          <ion-buttons slot="start">
+            <ion-button>
+              <ion-icon name="ellipsis-vertical-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-title class="ion-no-padding ion-text-center">APEX-G</ion-title>
+          <ion-buttons slot="end">
+            <ion-button>
+              <ion-icon name="person-circle-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<ion-content [fullscreen]="true" (ionScroll)="handleScroll($event)" [scrollEvents]="true">
+  <ion-grid class="container">
+    <ion-row [class.sticky-searchbar]="isScrolled" [class.unstick-searchbar]="!isScrolled">
+      <ion-col size="12" size-xl="8" offset-xl="2">
+        <div class="searchbar">
+          <ion-searchbar class="ion-no-padding" animated></ion-searchbar>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-start mt-1">
+      <ion-slides pager="false" [options]="slideOpts">
+        <ion-slide *ngFor="let slideItem of slides">
+          <div class="cards" [ngClass]='slideItem.color'>
+            <div class="card-left">
+              <ion-img [src]="slideItem.img"></ion-img>
+            </div>
+            <div class="card-right">
+              <h6>{{ slideItem.title }}</h6>
+              <p>{{ slideItem.desc }}</p>
+            </div>
+          </div>
+        </ion-slide>
+      </ion-slides>
+    </ion-row>
+    <ion-row>
+      <ion-col size-xl="8" offset-xl="2">
+        <ion-title class="ion-no-padding header-title mt-1" color="dark">Categories</ion-title>
+        <ion-slides pager="false" [options]="slideOptsCat">
+          <ion-slide *ngFor="let categories of categories">
+            <div class="category">
+              <div class="cat-holder">
+                <ion-img [src]="categories.img"></ion-img>
+              </div>
+              <h6>{{ categories.title }}</h6>
+            </div>
+          </ion-slide>
+        </ion-slides>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" size-xl="8" offset-xl="2">
+        <ion-title class="ion-no-padding header-title mt-0" color="dark">Quick Meals</ion-title>
+      </ion-col>
+      <ion-col size="12" size-xl="8" offset-xl="2" *ngFor="let products of products">
+        <div class="products">
+          <div class="time">
+            <span>44 - 50 min</span>
+          </div>
+          <ion-img [src]="products.img"></ion-img>
+          <h6>{{ products.title }}</h6>
+          <div class="cafe-rate">
+            <ion-icon name="star" color="primary"></ion-icon>
+            <small>4.9 <span>(124 ratings)</span></small>
+            <p>Cafe- Western food</p>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
